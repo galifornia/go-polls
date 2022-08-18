@@ -1,17 +1,19 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo/v4"
 )
 
 const PORT = "80"
 
+type App struct {
+}
+
 func main() {
+	app := App{}
+
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
-	})
+	app.setupRoutes(e)
+
 	e.Logger.Fatal(e.Start(":" + PORT))
 }
