@@ -10,7 +10,7 @@ import (
 // e.GET("/polls", handlers.GetAllPolls)
 func GetAllPolls(ctx echo.Context) error {
 	// TODO: call database
-	return ctx.String(http.StatusOK, "")
+	return ctx.String(http.StatusOK, "All polls")
 }
 
 // e.POST("/polls", handlers.NewPoll)
