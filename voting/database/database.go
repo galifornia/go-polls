@@ -2,27 +2,27 @@ package database
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 	"time"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
-func openDB(dsn string) (*pgx.Conn, error) {
-	conn, err := pgx.Connect(context.Background(), dsn)
+func openDB(dsn string) (*pgxpool.Pool, error) {
+	dbpool, err := pgxpool.Connect(context.Background(), dsn)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		log.Printf("Unable to connect to database: %v\n", err)
 		return nil, err
 	}
-	defer conn.Close(context.Background())
-	return conn, nil
+	defer dbpool.Close()
+
+	return dbpool, nil
 }
 
 const TRIES = 10
 
-func ConnectToDB() *pgx.Conn {
+func ConnectToDB() *pgxpool.Pool {
 	dsn := os.Getenv("DSN")
 	count := 0
 
